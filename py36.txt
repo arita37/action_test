@@ -1,0 +1,43 @@
+fire
+python-box
+numpy
+pandas<=1.2.1
+cloudpickle
+
+
+
+########################################################
+#### utilmy.images
+scikit-image
+opencv-python-headless
+
+
+
+
+########################################################
+#### utilmy.docs
+stdlib_list
+
+
+########################################################
+#### utilmy.adatasets
+scikit-learn
+
+
+
+########################################################
+#### utilmy.deeplearning
+-f https://download.pytorch.org/whl/torch_stable.html 
+torch>=1.10.0+cpu 
+torchvision>=0.11.0+cpu
+
+
+
+
+
+
+
+
+
+
+
