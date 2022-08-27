@@ -30,8 +30,6 @@ jobs:
             exit 1
           fi
 
-
-
   ############################################## 
   create-pull-request:
     needs : [main_run] # List of dependent Jobs
@@ -83,5 +81,4 @@ jobs:
             });
             return result.data.number;
             
-            
-            
+
