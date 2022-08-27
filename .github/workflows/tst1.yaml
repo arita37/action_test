@@ -66,7 +66,7 @@ jobs:
               head: '${{ github.ref_name }}',
               base: `${BASE_BRANCH}`,
               body: [
-                'This PR is auto-generated after sucessfull process completion.,',
+                'PR is auto-generated after sucessfull process.,',
                 'Uses : [actions/github-script](https://github.com/actions/github-script).'
               ].join('\n')
             });
@@ -74,7 +74,7 @@ jobs:
               owner,
               repo,
               issue_number: result.data.number,
-              labels: ['Auto-Generated PR']
+              labels: ['Auto-PR']
             });
             await github.rest.pulls.merge({
               owner,
