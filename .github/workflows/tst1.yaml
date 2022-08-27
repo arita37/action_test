@@ -78,6 +78,7 @@ jobs:
         env:
           BASE_BRANCH: ${{ env.BASE_BRANCH }}
         with:
+          result-encoding: string
           script: |
             const { repo, owner } = context.repo;
             const {BASE_BRANCH} = process.env;
@@ -89,6 +90,7 @@ jobs:
               base: `${BASE_BRANCH}`
             });
             return result.data[0].number;
+      - run: echo "${{ steps.get_pr.outputs }}"
       - name: Merge Pull Request
         id: merge_pr
         uses: actions/github-script@v6
