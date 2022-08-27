@@ -21,12 +21,13 @@ jobs:
 
       - name: Process
         env:
-          SUCCESS: false
+          SUCCESS: true
         run: |
           if $SUCCESS
           then
-            exit 0
+            echo "Success"
           else
+            echo "failed"
             exit 1
           fi
 
@@ -80,5 +81,6 @@ jobs:
               pull_number: result.data.number
             });
             return result.data.number;
-            
+
+
 
