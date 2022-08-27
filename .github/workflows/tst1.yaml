@@ -1,4 +1,4 @@
- name: Pull Request Action
+name: Pull Request Action
 on:
   push:
     branches:
@@ -6,8 +6,11 @@ on:
       - "!master"
       - "!main"
 
+
 jobs:
-  create-pull-request:
+
+  ##################################################
+  main_run:
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
@@ -26,11 +29,24 @@ jobs:
           else
             exit 1
           fi
+  ############################################## 
+  create-pull-request:
+    needs : [main_run] # List of dependent Jobs
+    if: success()   # check if all previous (needs) dependent jobs were successfull  then only execute
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       - name: Get BASE_BRANCH
         shell: bash
         run: |
           # If you want to figure it out dynamically
           echo "BASE_BRANCH=$( echo 'main')" >> $GITHUB_ENV
+          
       - name: Create and Merge Pull Request
         id: create_pr
         uses: actions/github-script@v6
@@ -63,3 +79,5 @@ jobs:
               pull_number: result.data.number
             });
             return result.data.number;
+            
+            
