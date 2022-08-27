@@ -21,7 +21,7 @@ jobs:
 
       - name: Process
         env:
-          SUCCESS: false
+          SUCCESS: true
         run: |
           if $SUCCESS
           then
