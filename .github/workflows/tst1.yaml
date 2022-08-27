@@ -50,8 +50,9 @@ jobs:
           # If you want to figure it out dynamically
           echo "BASE_BRANCH=$( echo 'main')" >> $GITHUB_ENV
           
-      - name: Create and Merge Pull Request
+      - name: Create Pull Request
         id: create_pr
+        continue-on-error: true
         uses: actions/github-script@v6
         env:
           BASE_BRANCH: ${{ env.BASE_BRANCH }}
@@ -70,18 +71,51 @@ jobs:
                 'Uses : [actions/github-script](https://github.com/actions/github-script).'
               ].join('\n')
             });
+            return result.data.number;
+      - name: Get Pull Request
+        id: get_pr
+        uses: actions/github-script@v6
+        env:
+          BASE_BRANCH: ${{ env.BASE_BRANCH }}
+        with:
+          script: |
+            const { repo, owner } = context.repo;
+            const {BASE_BRANCH} = process.env;
+            const result = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: 'open',
+              head: '${{ github.ref_name }}',
+              base: `${BASE_BRANCH}`
+            });
+            return result.data[0].number;
+      - name: Merge Pull Request
+        id: merge_pr
+        uses: actions/github-script@v6
+        env:
+          BASE_BRANCH: ${{ env.BASE_BRANCH }}
+        with:
+          script: |
+            const { repo, owner } = context.repo;
+            const {BASE_BRANCH} = process.env;
             await github.rest.issues.addLabels({
               owner,
               repo,
-              issue_number: result.data.number,
+              issue_number: "${{ steps.get_pr.outputs.result }}",
               labels: ['Auto-PR']
             });
             await github.rest.pulls.merge({
               owner,
               repo,
-              pull_number: result.data.number
+              pull_number: "${{ steps.get_pr.outputs.result }}"
             });
             return result.data.number;
+
+
+
+
+
+
 
 
 
