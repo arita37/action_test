@@ -90,7 +90,6 @@ jobs:
               base: `${BASE_BRANCH}`
             });
             return result.data[0].number;
-      - run: echo "${{ steps.get_pr.outputs }}"
       - name: Merge Pull Request
         id: merge_pr
         uses: actions/github-script@v6
@@ -111,7 +110,7 @@ jobs:
               repo,
               pull_number: "${{ steps.get_pr.outputs.result }}"
             });
-            return result.data.number;
+            return;
 
 
 
